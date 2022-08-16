@@ -3,8 +3,9 @@ const { connectToDb } = require('./config/db');
 
 
 // init app and middleware
-
 const app = express();
+app.use(express.json());
+
 
 // db connection
 connectToDb((err) => {
