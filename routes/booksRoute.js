@@ -3,7 +3,8 @@ const router = express.Router();
 const Books = require('../models/Books')
 
 router.get('/', (req, res) => {
-  Books.getAllDocs()
+  const page = req.query.page;
+  Books.getAllDocs({page})
   .then(books => res.status(200).json(books))
   .catch(err => {
     console.log(err);

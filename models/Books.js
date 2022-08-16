@@ -3,15 +3,23 @@ const { getDb } = require('../config/db');
 
 
 module.exports = {
-  getAllDocs: () => {
+  getAllDocs: (obj_arg) => {
     return new Promise(async (resolve, reject) => {
       const db = getDb();
+      const { page = 1 } = obj_arg;
+      const perPage = 3;
       try {
         let books = [];
-        await db.collection('books').find().sort({author: 1}).forEach(book => {
+        await db.collection('books').find().sort({author: 1}).skip(perPage * page - 1).limit(perPage).forEach(book => {
           books.push(book)
         })
-        resolve(books)
+        const totalDocuments = await db.collection('books').estimatedDocumentCount({})
+        resolve({
+          current_page: page,
+          total: totalDocuments,
+          data: books,
+          per_page: perPage
+        })
       }catch(error) {
         reject(error)
       }
