@@ -11,4 +11,17 @@ router.get('/', (req, res) => {
   })
 })
 
+router.get('/:id', (req, res) => {
+  let id = req.params.id;
+  Books.getOneDoc(id)
+  .then(book => res.status(200).json(book))
+  .catch(err => {
+    console.log(err);
+    res.status(500).json(err);
+  })
+})
+
+
+
+
 module.exports = router;

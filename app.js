@@ -19,4 +19,9 @@ connectToDb((err) => {
 // routes
 app.use('/books', require('./routes/booksRoute'))
 
+// error handle
+// app.use((err, req, res, next) => {
+//   res.status(500).send(err);
+// })
+
 
