@@ -1,7 +1,7 @@
 const { getDb } = require('../config/db')
 
 module.exports = {
-  get: () => {
+  getAllDocs: () => {
     return new Promise(async (resolve, reject) => {
       const db = getDb();
       try {
@@ -14,7 +14,8 @@ module.exports = {
         reject(error)
       }
     })
-  }
+  },
+  // getOneDoc
 }
 
 
