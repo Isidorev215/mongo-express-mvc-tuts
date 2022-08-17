@@ -20,6 +20,17 @@ connectToDb((err) => {
 // routes
 app.use('/books', require('./routes/booksRoute'))
 
+// error handle
+app.use((err, req, res, next) => {
+  console.log(err.stack);
+  res.status(err.statusCode || 500).send({
+    error: {
+      statusCode: err.statusCode || 500,
+      message: err.message || 'Internal Server Error'
+    }
+  })
+})
+
 // catch 404 error
 app.use((req, res) => {
   res.status(404).send({
@@ -27,9 +38,6 @@ app.use((req, res) => {
     error: 'Not Found'
   })
 })
-// error handle
-app.use((err, req, res, next) => {
-  res.status(500).send(err);
-})
+
 
 

@@ -29,9 +29,17 @@ module.exports = {
     return new Promise(async (resolve, reject) => {
       const db = getDb();
       try {
-        if(!ObjectId.isValid(doc_id)) throw Error('Not Valid Document');
+        if(!ObjectId.isValid(doc_id)){
+          const error = new Error('Not Valid Document');
+          error.statusCode = 422;
+          throw error;
+        }
         let doc = await db.collection('books').findOne({_id: ObjectId(doc_id)});
-        if(!doc) throw Error("Book doesn't exist");
+        if(!doc){
+          const error = new Error("Book doesn't exist")
+          error.statusCode = 422;
+          throw error
+        }
         resolve(doc);
       }catch(error){
         reject(error);
@@ -53,7 +61,11 @@ module.exports = {
     return new Promise(async (resolve, reject) => {
       const db = getDb();
       try {
-        if(!ObjectId.isValid(doc_id)) throw Error('Not Valid Document');
+        if(!ObjectId.isValid(doc_id)){
+          const error = new Error('Not Valid Document');
+          error.statusCode = 422;
+          throw error;
+        }
         let result = await db.collection('books').deleteOne({_id: ObjectId(doc_id)})
         resolve(result)
       }catch(error){
@@ -65,7 +77,11 @@ module.exports = {
     return new Promise(async (resolve, reject) => {
       const db = getDb();
       try {
-        if(!ObjectId.isValid(doc_id)) throw new Error('Not Valid Document');
+        if(!ObjectId.isValid(doc_id)){
+          const error = new Error('Not Valid Document');
+          error.statusCode = 422;
+          throw error;
+        }
         let result = await db.collection('books').updateOne({_id: ObjectId(doc_id)}, {$set: updates})
         resolve(result)
       }catch(error){
