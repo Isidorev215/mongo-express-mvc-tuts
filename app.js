@@ -20,9 +20,16 @@ connectToDb((err) => {
 // routes
 app.use('/books', require('./routes/booksRoute'))
 
+// catch 404 error
+app.use((req, res) => {
+  res.status(404).send({
+    status: 404,
+    error: 'Not Found'
+  })
+})
 // error handle
-// app.use((err, req, res, next) => {
-//   res.status(500).send(err);
-// })
+app.use((err, req, res, next) => {
+  res.status(500).send(err);
+})
 
 

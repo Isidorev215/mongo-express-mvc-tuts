@@ -1,14 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const Books = require('../models/Books')
+const Books = require('../models/Books');
 
 router.get('/', (req, res) => {
   const page = req.query.page;
   Books.getAllDocs({page})
   .then(books => res.status(200).json(books))
   .catch(err => {
-    console.log(err);
-    res.status(500).json({error: 'Server Error'})
+    res.status(500).json({error: err.message})
   })
 })
 
@@ -17,8 +16,7 @@ router.get('/:id', (req, res) => {
   Books.getOneDoc(id)
   .then(book => res.status(200).json(book))
   .catch(err => {
-    console.log(err);
-    res.status(500).json(err);
+    res.status(500).json({error: err.message});
   })
 })
 
@@ -27,8 +25,7 @@ router.post('/', (req, res) => {
   Books.addOneDoc(book)
   .then(result => res.status(201).json(result))
   .catch(err => {
-    console.log(err)
-    res.status(500).json({error: err, message: 'Could not add document'})
+    res.status(500).json({error: err.message})
   })
 })
 
@@ -37,8 +34,7 @@ router.delete('/:id', (req, res) => {
   Books.deleteDoc(id)
   .then(result => res.status(200).json(result))
   .catch(err => {
-    console.log(err)
-    res.status(500).json({error: err, message: 'Could not delete document'})
+    res.status(500).json({error: err.message})
   })
 })
 
@@ -48,8 +44,7 @@ router.patch('/:id', (req, res) => {
   Books.updateDoc(id, updates)
   .then(result => res.status(200).json(result))
   .catch(err => {
-    console.log(err)
-    res.status(500).json({error: err, message: 'Could not update document'})
+    res.status(500).json({error: err.message})
   })
 })
 
